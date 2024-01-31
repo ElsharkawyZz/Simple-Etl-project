@@ -120,7 +120,7 @@ python ingest_data.py \
   --url=${URL}  
 
 ```
-`The Ruselt`
+`The Result`
 
 ```
 ny_taxi=# \dt
