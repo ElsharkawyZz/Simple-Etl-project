@@ -34,8 +34,8 @@ cd /path/to/Simple-Etl-project
 ```
 ## *Usage*
 
-if you need to add the data to loacal database you can
-run this commend
+if you need to add the data to local database you can
+run this command
 ``` bash
 URL= 'Data you will need to download and upload'
 
@@ -76,7 +76,7 @@ postgres-# ;
 ```
 
 
-You can make extranl database by docker and postgres 
+You can make external database by docker and postgres 
 ``` bash
 #run this commend to create the database
 docker run -it \
