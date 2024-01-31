@@ -3,7 +3,7 @@ import subprocess
 from time import time
 import pandas as pd
 from sqlalchemy import create_engine
-
+import argparse
 
 def extract_data(url):
     if url.endswith('.csv.gz'):
@@ -19,7 +19,14 @@ def extract_data(url):
 
     return df
 
-def ingest_data(user,password,host,port,db,table_name,df):
+def ingest_data(params,df):
+    user = params.user
+    password = params.password
+    host = params.host 
+    port = params.port 
+    db = params.db
+    table_name = params.table_name
+
     postgres_url = f'postgresql://{user}:{password}@{host}:{port}/{db}'
     
     engine = create_engine(postgres_url)
@@ -30,14 +37,18 @@ def ingest_data(user,password,host,port,db,table_name,df):
 
 
 def main_flow(table_name :str):
-    user = "root"
-    password = "root"
-    host = "localhost"
-    port = "5432"
-    db = "ny_taxi"
-    csv_url = "https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz"
-    raw_data = extract_data(csv_url)
-    ingest_data(user, password, host, port, db, table_name,raw_data)
+   
+    parser = argparse.ArgumentParser(description='Ingest CSV data to Postgres')
+    parser.add_argument('--user', required=True, help='user name for postgres')
+    parser.add_argument('--password', required=True, help='password for postgres')
+    parser.add_argument('--host', required=True, help='host for postgres')
+    parser.add_argument('--port', required=True, help='port for postgres')
+    parser.add_argument('--db', required=True, help='database name for postgres')
+    parser.add_argument('--table_name', required=True, help='name of the table where we will write the results to')
+    parser.add_argument('--url', required=True, help='url of the csv file')
+    args = parser.parse_args()
+    raw_data = extract_data(args.url)
+    ingest_data(args,raw_data)
 
 
 if __name__ == '__main__':

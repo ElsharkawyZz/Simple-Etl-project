@@ -1,5 +1,5 @@
 services:
-  localhost:
+  pgdatabase:
     image: postgres:13
     environment:
     - POSTGRES_USER=root
@@ -17,6 +17,7 @@ services:
     ports:
       - "8080:80"   
   
+
 
 
   
